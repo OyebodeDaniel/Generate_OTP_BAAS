@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "ae14dd5d-8f70-4672-9dde-24d4751fed4a",
+		"name": "Generate OTP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27708868",
+		"_collection_link": "https://universal-satellite-296155.postman.co/workspace/BAAS~1a5d48d4-e5a1-4cef-8649-3d912ba63581/collection/27708868-ae14dd5d-8f70-4672-9dde-24d4751fed4a?action=share&source=collection_link&creator=27708868"
+	},
+	"item": [
+		{
+			"name": "Generate OTP",
+			"item": [
+				{
+					"name": "Generate OTP - Successful",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - Successful\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"OTP sent successfully\");\r",
+									"});\r",
+									"pm.test(\"Generate OTP - MobileNO is returned\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.mobile).to.not.null;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Generate OTP - requestID is returned\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.requestID).to.not.null;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"1289907010\",\r\n  \"channelcode\": \"Mobile\",\r\n  \"requestId\": \"{{requestId}}\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate OTP - No AccountNo",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - No AccountNo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"AccountNo is required\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"\",\r\n  \"channelcode\": \"Mobile\",\r\n  \"requestId\": \"{{requestId}}\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate OTP - Invalid AccountNo",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - Invalid AccountNo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"Invalid Account Number\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"12899!!!!!\",\r\n  \"channelcode\": \"Mobile\",\r\n  \"requestId\": \"{{requestId}}\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate OTP - Incomplete AccountNo",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - Incomplete AccountNo\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"Account number must be 10 digit\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"12899\",\r\n  \"channelcode\": \"Mobile\",\r\n  \"requestId\": \"{{requestId}}\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate OTP - No Channelcode",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - No Channelcode\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"Channelcode is required\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"1289907010\",\r\n  \"channelcode\": \"\",\r\n  \"requestId\": \"{{requestId}}\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate OTP - Invalid ChannelCode",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - Invalid Channelcode\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"Invalid Channel code\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"1289907010\",\r\n  \"channelcode\": \"#@\",\r\n  \"requestId\": \"{{requestId}}\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate OTP - No RequestID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - No RequestID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"The requestId field is required.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"1289907010\",\r\n  \"channelcode\": \"USSD\",\r\n  \"requestId\": \"\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate OTP - Duplicate RequestID",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let min = 00000;\r",
+									"let max = 99999;\r",
+									"let requestId = Math.round(Math.random() * (max - min) + min)\r",
+									"pm.environment.set(\"requestId\", requestId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Generate OTP - Duplicate RequestID\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.contains(\"Duplicate RequestId\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_Id",
+								"value": "250",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accountNo\": \"1289907010\",\r\n  \"channelcode\": \"USSD\",\r\n  \"requestId\": \"98876\",\r\n  \"message\": \"Dear Customer, Your Six(6) Digit One Time Password is {OTP} Please note that the Code will expire in 5 mins time\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{otpUrl}}/api/OTP/generate-otp",
+							"host": [
+								"{{otpUrl}}"
+							],
+							"path": [
+								"api",
+								"OTP",
+								"generate-otp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
